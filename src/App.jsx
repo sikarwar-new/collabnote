@@ -21,8 +21,6 @@ import AdminPanel from "./features/admin/AdminPanel.jsx";
 import Payment from "./Components/Payment.jsx";
 import Success from "./Components/Success.jsx";
 import Cancel from "./Components/Cancel.jsx"; 
-import AccessRequests from './features/admin/AccessRequests.jsx';
-import NotesRequests from './features/admin/NotesRequests.jsx';
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const router = createBrowserRouter([
@@ -77,22 +75,6 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <AdminPanel />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/admin/notes-requests",
-    element: (
-      <ProtectedRoute>
-        <NotesRequests />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/admin/access-requests",
-    element: (
-      <ProtectedRoute>
-        <AccessRequests />
       </ProtectedRoute>
     ),
   },

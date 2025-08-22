@@ -210,7 +210,7 @@ const MarksheetScanner = ({ onEligibilityDetermined, showInfoModal }) => {
         );
         localStorage.setItem("marksheetEligibilityStatus", status);
         showInfoModal(
-          `Marksheet scanned! CGPA: ${finalExtractedData.cgpa}. Status: ${status}. Data saved to local storage.`
+          `Marksheet scanned! CGPA: ${finalExtractedData.cgpa}. Status: ${status}. Data saved.`
         );
       } catch (e) {
         console.error("Failed to save to local storage:", e);

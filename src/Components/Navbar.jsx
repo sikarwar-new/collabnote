@@ -38,7 +38,7 @@ export default function Navbar() {
           <NavLink to="/">
             <div className="flex items-center space-x-2">
               <img src={Logo} alt="Logo" className="h-8 w-8 rounded" />
-              <span className="font-semibold text-lg">CollabeNote</span>
+              <span className="font-semibold text-lg">CollabNote</span>
             </div>
           </NavLink>
 
@@ -82,8 +82,6 @@ export default function Navbar() {
                 </span>
               )}
             </NavLink>
-
-            <button className="text-xl hover:scale-110 transition">🌙</button>
 
             {loggedIn ? (
               <div className="relative" ref={profileRef}>
@@ -192,12 +190,6 @@ export default function Navbar() {
         </div>
 
         <div className="space-y-4">
-          <button
-            className="text-xl hover:scale-110 transition"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            🌙
-          </button>
 
           {loggedIn ? (
             <>
