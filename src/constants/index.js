@@ -12,6 +12,8 @@ export const YEARS = [
 ]
 
 export const SEMESTERS = [
+  "1st Semester",
+  "2nd Semester", 
   "3rd Semester",
   "4th Semester",
   "5th Semester",

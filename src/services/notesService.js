@@ -44,6 +44,7 @@ export const getAllNotes = async () => {
 // Get notes by filters
 export const getNotesByFilter = async (filters = {}) => {
   try {
+    console.log("getNotesByFilter called with filters:", filters);
     const notesRef = collection(db, "notes");
     let q = query(notesRef);
 
@@ -71,9 +72,16 @@ export const getNotesByFilter = async (filters = {}) => {
     const querySnapshot = await getDocs(q);
     const notes = [];
     querySnapshot.forEach((doc) => {
+      const noteData = { id: doc.id, ...doc.data() };
+      console.log("Found note:", noteData.title, "with filters:", {
+        year: noteData.year,
+        branch: noteData.branch,
+        semester: noteData.semester
+      });
       notes.push({ id: doc.id, ...doc.data() });
     });
 
+    console.log(`Found ${notes.length} notes matching filters`);
     return { notes, error: null };
   } catch (error) {
     console.error("Error getting filtered notes:", error);

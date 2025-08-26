@@ -18,9 +18,8 @@ function Result() {
 
       const filters = {};
 
-      // Keep the values exactly as stored in Firestore
+      // Map URL parameters to Firestore field values
       if (year) {
-        // Example: Firestore stores "1st Year" not "1st"
         filters.year = year.trim();
       }
       if (branch) {
@@ -33,7 +32,9 @@ function Result() {
       // Always fetch only approved notes
       filters.status = "approved";
 
+      console.log("Applying filters:", filters);
       const { notes: fetchedNotes } = await getNotesByFilter(filters);
+      console.log("Fetched notes:", fetchedNotes);
       setNotes(fetchedNotes);
       setLoading(false);
     };
