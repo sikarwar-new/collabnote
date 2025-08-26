@@ -254,7 +254,7 @@ function AdminPanel() {
                       <th className={thClassName}>Subject</th>
                       <th className={thClassName}>Branch</th>
                       <th className={thClassName}>Year / Semester</th>
-                      <th className={thClassName}>Admin Drive Link</th>
+                      <th className={thClassName}>Uploader Info</th>
                       <th className={thClassName}>Status</th>
                       <th className={thClassName}>Submitted</th>
                       <th className={thClassName}>Actions</th>
@@ -271,6 +271,28 @@ function AdminPanel() {
                         <td className={tdClassName}>{note.branch}</td>
                         <td className={tdClassName}>
                           {note.year} / {note.semester}
+                        </td>
+                        <td className={tdClassName}>
+                          <div className="text-xs">
+                            <p>
+                              <strong>Name:</strong>{" "}
+                              {note.uploaderName || "Anonymous"}
+                            </p>
+                            {note.uploaderCGPA && (
+                              <p>
+                                <strong>CGPA:</strong>
+                                <span
+                                  className={`ml-1 font-semibold ${
+                                    note.uploaderCGPA >= 8.5
+                                      ? "text-green-600"
+                                      : "text-orange-600"
+                                  }`}
+                                >
+                                  {note.uploaderCGPA}
+                                </span>
+                              </p>
+                            )}
+                          </div>
                         </td>
                         <td className={tdClassName}>
                           <span className={getStatusBadge(note.status)}>

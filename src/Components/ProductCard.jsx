@@ -10,6 +10,8 @@ const Card = ({
   numRatings,
   price,
   driveLink,
+  uploaderName,
+  uploaderCGPA,
   btn = "Add to Cart",
   isBought = false,
 }) => {
@@ -79,6 +81,21 @@ const Card = ({
       <h3 className="text-lg font-medium text-gray-900 mb-1">{title}</h3>
       <p className="text-sm text-gray-500 mb-1">{subject}</p>
       <p className="text-xs text-gray-400 mb-3">⭐ {numRatings} ratings</p>
+      
+      {/* Uploader Information */}
+      <div className="bg-gray-50 rounded-md p-2 mb-3">
+        <p className="text-xs text-gray-600 mb-1">
+          <span className="font-medium">Uploaded by:</span> {uploaderName || "Anonymous"}
+        </p>
+        {uploaderCGPA && (
+          <p className="text-xs text-gray-600">
+            <span className="font-medium">CGPA:</span> 
+            <span className={`ml-1 font-semibold ${uploaderCGPA >= 8.5 ? 'text-green-600' : 'text-orange-600'}`}>
+              {uploaderCGPA}
+            </span>
+          </p>
+        )}
+      </div>
 
       {noteStatus !== 'approved' && !isBought && (
         <p className="text-md font-semibold text-green-600 mb-4">₹{price}</p>

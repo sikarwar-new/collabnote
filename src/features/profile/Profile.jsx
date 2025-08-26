@@ -2,7 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import ProductCard from "../../Components/ProductCard.jsx";
 import UserProfileEdit from "./UserProfileEdit.jsx";
-import { getUserAccessedNotes, listenToUserNotes } from "../../services/notesService.js";
+import {
+  getUserAccessedNotes,
+  listenToUserNotes,
+} from "../../services/notesService.js";
 
 function Profile() {
   const { user, userDoc } = useAuth();
@@ -28,7 +31,7 @@ function Profile() {
     // Listen to user's notes and earnings in real-time
     const unsubscribe = listenToUserNotes(user.uid, async (userNotes) => {
       setEarnings(userNotes.earnings);
-      
+
       // Fetch accessed notes details
       const { notes } = await getUserAccessedNotes(user.uid);
       setAccessedNotes(notes);
@@ -66,7 +69,9 @@ function Profile() {
         </div>
 
         <div className="text-center sm:text-left">
-          <p className="text-2xl font-bold text-white">{user?.displayName || userDoc?.displayName}</p>
+          <p className="text-2xl font-bold text-white">
+            {user?.displayName || userDoc?.displayName}
+          </p>
           <p className="text-gray-300 text-sm">{user?.email}</p>
           <button
             onClick={() => setIsEditOpen(true)}

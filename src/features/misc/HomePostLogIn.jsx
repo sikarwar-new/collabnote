@@ -31,7 +31,9 @@ function HomePostLogIn() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-4">Welcome Admin</h1>
-          <p className="text-gray-600 mb-6">You are logged in as an administrator.</p>
+          <p className="text-gray-600 mb-6">
+            You are logged in as an administrator.
+          </p>
           <NavLink
             to="/admin"
             className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition"
@@ -55,7 +57,10 @@ function HomePostLogIn() {
     <div className="mt-15 px-6 py-10 min-h-screen text-gray-800 w-[90%] mx-auto">
       <Particles />
       <h1 className="text-4xl font-semibold text-center mb-12">
-        Welcome back, <span className="text-orange-500">{user?.displayName || userDoc?.displayName || "User"}</span>{" "}
+        Welcome back,{" "}
+        <span className="text-orange-500">
+          {user?.displayName || userDoc?.displayName || "User"}
+        </span>{" "}
         👋
       </h1>
 
@@ -88,6 +93,8 @@ function HomePostLogIn() {
                 numRatings={note.ratings?.length || 0}
                 price={note.price || 5}
                 driveLink={note.driveLink}
+                uploaderName={note.uploaderName}
+                uploaderCGPA={note.uploaderCGPA}
                 btn="Add to Cart"
               />
             </div>

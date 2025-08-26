@@ -70,12 +70,14 @@ function Result() {
           notes.map((course) => (
             <ProductCard
               key={course.id}
-                id={course.id}
+              id={course.id}
               title={course.title}
               subject={course.subject || "General"}
               numRatings={course.ratings?.length || 0}
               price={course.price}
-                driveLink={course.driveLink}
+              driveLink={course.driveLink}
+              uploaderName={course.uploaderName}
+              uploaderCGPA={course.uploaderCGPA}
               btn={"Add to Cart"}
               onAddToCart={() => handleAddToCart(course)}
             />

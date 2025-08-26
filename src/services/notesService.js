@@ -1,4 +1,4 @@
-// Notes service functions for Firestore operations
+import { auth } from "../config/firebase";
 import {
   collection,
   doc,
@@ -105,12 +105,35 @@ export const getUserUploadedNotes = async (userId) => {
 };
 
 // Create a new note (for users)
-export const createNote = async (noteData, userId) => {
+export const createNote = async (noteData, userId, userDoc = null) => {
   try {
     const notesRef = collection(db, "notes");
+
+    // Get uploader information
+    let uploaderName = "Anonymous";
+    let uploaderCGPA = null;
+
+    if (userDoc) {
+      uploaderName = userDoc.displayName || "Anonymous";
+      if (userDoc.academicDetails && userDoc.academicDetails.cgpa) {
+        uploaderCGPA = userDoc.academicDetails.cgpa;
+      }
+    }
+
+    // If userDoc doesn't have displayName, try to get it from Firebase Auth
+    if (uploaderName === "Anonymous") {
+      // Get the current user from Firebase Auth
+      const currentUser = auth.currentUser;
+      if (currentUser && currentUser.displayName) {
+        uploaderName = currentUser.displayName;
+      }
+    }
+
     const docRef = await addDoc(notesRef, {
       ...noteData,
       uploadedBy: userId,
+      uploaderName: uploaderName,
+      uploaderCGPA: uploaderCGPA,
       status: "pending",
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -142,15 +165,15 @@ export const updateUserEligibility = async (userId, isEligible) => {
 export const addToPendingNotes = async (userId, noteIds, paymentId) => {
   try {
     const userRef = doc(db, "users", userId);
-    
+
     // Create pending note objects with payment information
-    const pendingNoteObjects = noteIds.map(noteId => ({
+    const pendingNoteObjects = noteIds.map((noteId) => ({
       noteId: noteId,
       paymentId: paymentId,
       purchasedAt: new Date(),
-      status: 'pending'
+      status: "pending",
     }));
-    
+
     await updateDoc(userRef, {
       pendingNotes: arrayUnion(...pendingNoteObjects),
       updatedAt: new Date(),
@@ -167,22 +190,22 @@ export const getUserNotes = async (userId) => {
   try {
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
-    
+
     if (userSnap.exists()) {
       const userData = userSnap.data();
       return {
         pendingNotes: userData.pendingNotes || [],
         approvedNotes: userData.approvedNotes || [],
         earnings: userData.earnings || 0,
-        error: null
+        error: null,
       };
     }
-    
+
     return {
       pendingNotes: [],
       approvedNotes: [],
       earnings: 0,
-      error: null
+      error: null,
     };
   } catch (error) {
     console.error("Error getting user notes:", error);
@@ -190,7 +213,7 @@ export const getUserNotes = async (userId) => {
       pendingNotes: [],
       approvedNotes: [],
       earnings: 0,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -240,17 +263,23 @@ export const getApprovedNotesDetails = async (noteIds = []) => {
 };
 
 // Check if note is in user's pending or approved notes
-export const checkNoteStatus = (noteId, pendingNotes = [], approvedNotes = []) => {
+export const checkNoteStatus = (
+  noteId,
+  pendingNotes = [],
+  approvedNotes = []
+) => {
   // Check if noteId is in approvedNotes array (still simple strings)
-  if (approvedNotes.includes(noteId)) return 'approved';
-  
+  if (approvedNotes.includes(noteId)) return "approved";
+
   // Check if noteId exists in pendingNotes array (now objects with noteId property)
-  const isPending = pendingNotes.some(pendingNote => 
-    typeof pendingNote === 'object' ? pendingNote.noteId === noteId : pendingNote === noteId
+  const isPending = pendingNotes.some((pendingNote) =>
+    typeof pendingNote === "object"
+      ? pendingNote.noteId === noteId
+      : pendingNote === noteId
   );
-  if (isPending) return 'pending';
-  
-  return 'none';
+  if (isPending) return "pending";
+
+  return "none";
 };
 
 export const getUserAccessedNotes = async (userId) => {
